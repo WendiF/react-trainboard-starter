@@ -4,6 +4,7 @@ import './App.css';
 import Station from './components/Station';
 import Stations from './components/Stations';
 import StationSelection from './components/StationSelection';
+import RouteButton  from './components/RouteButton';
 
 const App = () => (
     <BrowserRouter>
@@ -19,6 +20,7 @@ const App = () => (
                     <Route index element = { <Stations/> }/>
                 </Route>
             </Routes>
+            <RouteButton/>
             <footer>
                 <Link to = "/stations">Stations</Link>
             </footer>
