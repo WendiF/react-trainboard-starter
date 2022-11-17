@@ -1,21 +1,6 @@
-import React, { createContext, Dispatch, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-// create context
-//const DepartureContext = createContext({
-//    departure: "",
-//    setDeparture: (departure: string) => {}
-//});
-// const ArrivalContext = createContext({
-//     arrival: "",
-//     setArrival: (arrival: string) => {}
-// });
-
-type Format = {
-    value: [string, Dispatch<React.SetStateAction<string>>];
-    value2: [string, Dispatch<React.SetStateAction<string>>];
-}
-
-const input: any = {
+const defaultContextValue: any = {
     departure: {
         code: 'OK', setCode: (code: string) => undefined,
     }, arrival: {
@@ -23,12 +8,12 @@ const input: any = {
     },
 };
 
-const myContext = React.createContext(input);
+const myContext = React.createContext(defaultContextValue);
 
 const ContextProvider = ({ children }: { children: any }) => {
-    // the values that will be given to the context
+
     const [departure, setDeparture] = useState('EUS');
-    const [arrival, setArrival] = useState('EUS2');
+    const [arrival, setArrival] = useState('EUS');
 
     return (
         // the Provider gives access to the context to its children
