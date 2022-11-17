@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, Dispatch, useEffect, useState } from 'react';
 
 // create context
 //const DepartureContext = createContext({
@@ -11,22 +11,22 @@ import React, { createContext, useState, useEffect } from "react";
 // });
 
 type Format = {
-    value: [string, Function],
-    value2: [string, Function]
+    value: [string, Dispatch<string>];
+    value2: [string, Dispatch<string>];
 }
 
-let input: Format = {value: ["", () => {}], value2: ["", () => {}]};
+const input: Format = { value: ['', () => {return;}], value2: ['', () => {return;}] };
 
 const myContext = React.createContext(input);
 
 const ContextProvider = ({ children }: { children: any }) => {
     // the values that will be given to the context
-    const [departure, setDeparture] = useState("");
-    const [arrival, setArrival] = useState("");
+    const [departure, setDeparture] = useState('EUS');
+    const [arrival, setArrival] = useState('EUS2');
 
     return (
         // the Provider gives access to the context to its children
-        <myContext.Provider value={{value: [departure, setDeparture], value2: [arrival, setArrival]}}>
+        <myContext.Provider value = { { value: [departure, setDeparture], value2: [arrival, setArrival] } }>
             {children}
         </myContext.Provider>
     );

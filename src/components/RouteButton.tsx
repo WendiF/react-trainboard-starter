@@ -1,18 +1,23 @@
-import React, { useEffect, useState, createContext } from 'react';
-import StationSelection from "./StationSelection";
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { myContext } from './ContextProvider';
+import StationSelection from './StationSelection';
 
 const RouteButton: React.FC<unknown> = () => {
-
+    const { value, value2 } = React.useContext(myContext);
+    const [departure, setStateValue] = value;
+    const [arrival, setStateValue2] = value2;
     return (
+        
         <div>
-            <h2> Departure Station </h2>
-            <StationSelection/>
-            <h2> Arrival Station </h2>
-            <StationSelection/>
-            <a href = "src/components/RouteButton#LiveDepResults">
-                <button type = "button">Click</button>
+            <a >
+                <button onClick = { (e) => getStations(e, departure, arrival) } type = "button">Click</button>
             </a>
         </div>
     );
+};
+
+const getStations = (e: any, departure: string, arrival: string) => {
+
+    console.log(departure, arrival);
 };
 export default RouteButton;

@@ -1,7 +1,7 @@
-import React, { useEffect, useState, createContext } from 'react';
-import StationSelection from "./StationSelection";
-import RouteButton from "./RouteButton";
-import {myContext, ContextProvider} from "./ContextProvider";
+import React, { createContext,useEffect, useState } from 'react';
+import { ContextProvider,myContext } from './ContextProvider';
+import RouteButton from './RouteButton';
+import StationSelection from './StationSelection';
 
 const UserPrompt: React.FC<unknown> = () => {
     const { value, value2 } = React.useContext(myContext);
@@ -11,9 +11,9 @@ const UserPrompt: React.FC<unknown> = () => {
         <div>
             <ContextProvider>
                 <h2> Departure Station </h2>
-                <StationSelection setter={setDeparture}/>
+                <StationSelection setter = { setDeparture }/>
                 <h2> Arrival Station </h2>
-                <StationSelection setter={setArrival}/>
+                <StationSelection setter = { setArrival }/>
                 <RouteButton/>
             </ContextProvider>
         </div>
