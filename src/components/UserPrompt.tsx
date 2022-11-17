@@ -1,18 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import RouteButton from './RouteButton';
-import { StationContext } from './StationContextProvider';
 import StationSelection from './StationSelection';
 
 const UserPrompt: React.FC = () => {
-    const { departure, arrival } = React.useContext(StationContext);
+    const [departure, setDeparture] = useState('EUS');
+    const [arrival, setArrival] = useState('EUS');
 
     return (
         <div>
             <h2> Departure Station </h2>
-            <StationSelection setter = { departure.setCode }/>
+            <StationSelection code = { departure } setter = { setDeparture }/>
             <h2> Arrival Station </h2>
-            <StationSelection setter = { arrival.setCode }/>
-            <RouteButton/>
+            <StationSelection code = { arrival } setter = { setArrival }/>
+            <RouteButton departure = { departure } arrival = { arrival }/>
         </div>
     );
 };
