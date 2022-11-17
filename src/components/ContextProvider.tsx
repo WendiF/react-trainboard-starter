@@ -11,11 +11,17 @@ import React, { createContext, Dispatch, useEffect, useState } from 'react';
 // });
 
 type Format = {
-    value: [string, Dispatch<string>];
-    value2: [string, Dispatch<string>];
+    value: [string, Dispatch<React.SetStateAction<string>>];
+    value2: [string, Dispatch<React.SetStateAction<string>>];
 }
 
-const input: Format = { value: ['', () => {return;}], value2: ['', () => {return;}] };
+const input: any = {
+    departure: {
+        code: 'OK', setCode: (code: string) => undefined,
+    }, arrival: {
+        code: 'OK', setCode: (code: string) => undefined,
+    },
+};
 
 const myContext = React.createContext(input);
 
@@ -26,7 +32,7 @@ const ContextProvider = ({ children }: { children: any }) => {
 
     return (
         // the Provider gives access to the context to its children
-        <myContext.Provider value = { { value: [departure, setDeparture], value2: [arrival, setArrival] } }>
+        <myContext.Provider value = { { departure: { code: departure, setCode: setDeparture }, arrival:  { code: arrival, setCode: setArrival } } }>
             {children}
         </myContext.Provider>
     );

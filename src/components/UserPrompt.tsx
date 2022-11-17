@@ -4,18 +4,15 @@ import RouteButton from './RouteButton';
 import StationSelection from './StationSelection';
 
 const UserPrompt: React.FC<unknown> = () => {
-    const { value, value2 } = React.useContext(myContext);
-    const [departure, setDeparture] = value;
-    const [arrival, setArrival] = value2;
+    const { departure, arrival } = React.useContext(myContext);
+
     return (
         <div>
-            <ContextProvider>
-                <h2> Departure Station </h2>
-                <StationSelection setter = { setDeparture }/>
-                <h2> Arrival Station </h2>
-                <StationSelection setter = { setArrival }/>
-                <RouteButton/>
-            </ContextProvider>
+            <h2> Departure Station </h2>
+            <StationSelection setter = { departure.setCode }/>
+            <h2> Arrival Station </h2>
+            <StationSelection setter = { arrival.setCode }/>
+            <RouteButton/>
         </div>
     );
 };

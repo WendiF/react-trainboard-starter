@@ -19,6 +19,7 @@ type StationSelectionProps = {
 }
 
 const handleChange = (event: any, setter: Dispatch<string>) => {
+    console.log(setter);
     setter(event.target.value);
     console.log(event.target.value);
 
@@ -28,10 +29,6 @@ const StationSelection: React.FC<StationSelectionProps> = ({ setter }) => {
     const stationHtml = stations.map((station) =>{
         return <option key = { station[0] } value = { station[1] }> {station[0]} </option>;
     });
-
-    const { value, value2 } = React.useContext(myContext);
-    const [departure, setStateValue] = value;
-    const [arrival, setStateValue2] = value2;
 
     return (
         // THIS IS WHERE WE STOPPED

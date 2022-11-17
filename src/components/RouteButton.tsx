@@ -3,9 +3,8 @@ import { myContext } from './ContextProvider';
 import StationSelection from './StationSelection';
 
 const RouteButton: React.FC<unknown> = () => {
-    const { value, value2 } = React.useContext(myContext);
-    const [departure, setStateValue] = value;
-    const [arrival, setStateValue2] = value2;
+    const { departure, arrival } = React.useContext(myContext);
+
     return (
         
         <div>
