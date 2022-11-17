@@ -1,17 +1,17 @@
 import React from 'react';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import './App.css';
-import { ContextProvider } from './components/ContextProvider';
 import Station from './components/Station';
+import { StationContextProvider } from './components/StationContextProvider';
 import Stations from './components/Stations';
 import UserPrompt from './components/UserPrompt';
 
 const App = () => (
     <BrowserRouter>
         <div className = "App">
-            <ContextProvider>
+            <StationContextProvider>
                 <UserPrompt/>
-            </ContextProvider>
+            </StationContextProvider>
             <Routes>
                 <Route path = "/stations">
                     <Route path = ":id" element = { <Station/> }/>

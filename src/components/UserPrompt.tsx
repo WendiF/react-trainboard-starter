@@ -1,10 +1,10 @@
 import React from 'react';
-import { myContext } from './ContextProvider';
 import RouteButton from './RouteButton';
+import { StationContext } from './StationContextProvider';
 import StationSelection from './StationSelection';
 
 const UserPrompt: React.FC<unknown> = () => {
-    const { departure, arrival } = React.useContext(myContext);
+    const { departure, arrival } = React.useContext(StationContext);
 
     return (
         <div>
