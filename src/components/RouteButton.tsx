@@ -1,6 +1,6 @@
-import React from 'react';
-import { fetchFares } from '../helpers/ApiCallHelper';
-import { StationContext } from './StationContextProvider';
+import React, { useEffect } from 'react';
+import { fetchFares, fetchStations } from '../helpers/ApiCallHelper';
+
 type RouteButtonProps = {
     departure: string;
     arrival: string;
