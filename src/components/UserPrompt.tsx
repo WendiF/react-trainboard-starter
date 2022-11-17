@@ -3,7 +3,7 @@ import RouteButton from './RouteButton';
 import { StationContext } from './StationContextProvider';
 import StationSelection from './StationSelection';
 
-const UserPrompt: React.FC<unknown> = () => {
+const UserPrompt: React.FC = () => {
     const { departure, arrival } = React.useContext(StationContext);
 
     return (

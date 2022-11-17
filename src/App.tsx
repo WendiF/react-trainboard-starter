@@ -19,7 +19,7 @@ const App = () => (
                     <Route index element = { <Stations/> }/>
                 </Route>
             </Routes>
-=            <footer>
+            <footer>
                 <Link to = "/stations">Stations</Link>
             </footer>
         </div>

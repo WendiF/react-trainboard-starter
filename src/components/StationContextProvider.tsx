@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 
-const defaultContextValue: any = {
+const StationContext = React.createContext({
     departure: {
-        code: 'OK', setCode: (code: string) => undefined,
+        code: '', setCode: (code: string) => undefined,
     }, arrival: {
-        code: 'OK', setCode: (code: string) => undefined,
+        code: '', setCode: (code: string) => undefined,
     },
-};
-
-const StationContext = React.createContext(defaultContextValue);
+} as any);
 
 const StationContextProvider = ({ children }: { children: any }) => {
 
@@ -17,7 +15,10 @@ const StationContextProvider = ({ children }: { children: any }) => {
 
     return (
         // the Provider gives access to the context to its children
-        <StationContext.Provider value = { { departure: { code: departure, setCode: setDeparture }, arrival:  { code: arrival, setCode: setArrival } } }>
+        <StationContext.Provider value = { {
+            departure: { code: departure, setCode: setDeparture },
+            arrival: { code: arrival, setCode: setArrival },
+        } }>
             {children}
         </StationContext.Provider>
     );
