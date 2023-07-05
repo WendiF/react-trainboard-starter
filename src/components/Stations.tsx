@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import ClipLoader from 'react-spinners/ClipLoader';
+import './stations.css';
 import { fetchFares, fetchStations } from '../helpers/ApiCallHelper';
 import { journey } from '../models/journey';
 import { stationAPI } from '../models/station';
@@ -12,8 +14,15 @@ const Stations: React.FC = () => {
 
     const [journeys, setJourneys] = useState<journey[]>();
 
+    const today = new Date(Date.now());
+    today.setHours(today.getHours() + 1);
+
+    const [isLoading, setLoading] = useState(false);
+
     const handleClick = () => {
-        fetchFares(from, to, '2023-07-06')
+        setLoading(true);
+        setJourneys(undefined);
+        fetchFares(from, to, today.toISOString())
             .then((value) => setJourneys(value.map((journey: any): journey => ({
                 arrivalTime: new Date(journey.arrivalTime),
                 departureTime: new Date(journey.departureTime),
@@ -22,7 +31,7 @@ const Stations: React.FC = () => {
                 id: journey.journeyId,
             }))))
             .catch((err) => console.log(err))
-            .finally(() => console.log('fares'));
+            .finally(() => setLoading(false));
     };
 
     useEffect(() => {
@@ -37,19 +46,27 @@ const Stations: React.FC = () => {
 
     return (
         <>
-            <label htmlFor = "from">From:</label>
-            <select name = "from" id = "from" value = { from } onChange = { (event) => setFrom(event.target.value) }>
-                {allStations?.map((station) => <option value = { allStationCodes?.get(station) }
-                    key = { station }>{station}</option>)}
-            </select>
+            <form>
+                <label htmlFor = "from">From:</label>
+                <select name = "from" id = "from" value = { from } onChange = { (event) => setFrom(event.target.value) }>
+                    {allStations?.map((station) => <option value = { allStationCodes?.get(station) }
+                        key = { station }>{station}</option>)}
+                </select>
 
-            <label htmlFor = "to">To:</label>
-            <select name = "to" id = "to" value = { to } onChange = { (event) => setTo(event.target.value) }>
-                {allStations?.map((station) => <option value = { allStationCodes?.get(station) }
-                    key = { station }>{station}</option>)}
-            </select>
-
+                <label htmlFor = "to">To:</label>
+                <select name = "to" id = "to" value = { to } onChange = { (event) => setTo(event.target.value) }>
+                    {allStations?.map((station) => <option value = { allStationCodes?.get(station) }
+                        key = { station }>{station}</option>)}
+                </select>
+            </form>
             <button type = "button" onClick = { handleClick }>Submit</button>
+
+            {isLoading && <ClipLoader
+                loading = { isLoading }
+                cssOverride = { { display: 'block', margin:'auto' } }
+            />}
+
+            {journeys &&
 
             <div>
                 <table>
@@ -72,6 +89,8 @@ const Stations: React.FC = () => {
                     </tbody>
                 </table>
             </div>
+
+            }
         </>
     );
 };
