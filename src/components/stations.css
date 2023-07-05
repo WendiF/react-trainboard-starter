@@ -16,7 +16,7 @@ form {
     margin: auto;
     width: fit-content;
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto 1fr auto;
     gap: 1em;
     align-items: baseline;
 }

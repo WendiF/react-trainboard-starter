@@ -1,6 +1,8 @@
 export type station = {
     name: string;
     code: string;
+    latitude: number;
+    longitude: number;
 }
 
 export type stationAPI = {
