@@ -1,0 +1,47 @@
+table {
+    margin: auto;
+}
+
+label {
+    text-align: left;
+    display: block;
+}
+
+form {
+    width: fit-content;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1em;
+    align-items: baseline;
+    min-width: 40ch;
+}
+
+button {
+    position: relative;
+    margin: 1em;
+    background-color: #008CBA;
+    border: none;
+    color: white;
+    padding: 0.3em 0.6em;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 0.3em;
+    box-shadow: 0 0.4em 0 #004C6A;
+}
+
+button:hover {
+    top: 0.2em;
+    box-shadow: 0 0.2em 0 #004C6A;
+}
+
+button:active {
+    top: 0.3em;
+    box-shadow: 0 0.1em 0 #004C6A;
+}
+
+.location-button {
+    display: grid;
+    padding: 0.2em;
+}
