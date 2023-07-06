@@ -6,12 +6,13 @@ import JourneyTable from './JourneyTable';
 
 const Stations: React.FC = () => {
     const [journeys, setJourneys] = useState<Journey[]>();
+    const [hasCompleted, setHasCompleted] = useState(false);
 
     return (
         <>
-            <JourneyForm setJourneys = { setJourneys } />
+            <JourneyForm setJourneys = { setJourneys } setHasCompleted = { setHasCompleted } />
 
-            <JourneyTable journeys = { journeys } />
+            <JourneyTable journeys = { journeys } hasCompleted = { hasCompleted }/>
         </>
     );
 };

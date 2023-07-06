@@ -10,7 +10,8 @@ import { Station, StationAPI } from '../models/Station';
 
 const JourneyForm: React.FC<{
     setJourneys: React.Dispatch<React.SetStateAction<Journey[] | undefined>>;
-}> = ({ setJourneys }) => {
+    setHasCompleted: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ setJourneys, setHasCompleted }) => {
     const [stations, setStations] = useState<Station[]>();
     const [stationOptions, setStationOptions] = useState<SelectOption[]>();
 
@@ -23,14 +24,14 @@ const JourneyForm: React.FC<{
         navigator.geolocation.getCurrentPosition((pos) => {
             const coords = { latitude: pos.coords.latitude, longitude: pos.coords.longitude };
 
-            let bestDist;
+            let bestDistance;
             let bestStation;
             if (stations) {
                 for (const station of stations) {
                     if (station) {
-                        const dist = Math.pow(station.longitude - coords.longitude, 2) + Math.pow(station.latitude - coords.latitude, 2);
-                        if (!bestDist || dist < bestDist) {
-                            bestDist = dist;
+                        const distance = Math.pow(station.longitude - coords.longitude, 2) + Math.pow(station.latitude - coords.latitude, 2);
+                        if (!bestDistance || distance < bestDistance) {
+                            bestDistance = distance;
                             bestStation = {
                                 value: station.code,
                                 label: station.name,
@@ -49,8 +50,9 @@ const JourneyForm: React.FC<{
         today.setHours(today.getHours() + 1);
 
         if (from && to) {
+            setHasCompleted(false);
             setLoading(true);
-            setJourneys(undefined);
+
             fetchFares(from.value, to.value, today.toISOString())
                 .then((returnedJourneys) => setJourneys(returnedJourneys.map((journey: any): Journey => ({
                     arrivalTime: new Date(journey.arrivalTime),
@@ -59,8 +61,11 @@ const JourneyForm: React.FC<{
                     origin: journey.originStation.displayName,
                     id: journey.journeyId,
                 }))))
-                .catch((err) => console.log(err))
-                .finally(() => setLoading(false));
+                .catch(() => setJourneys([]))
+                .finally(() => {
+                    setLoading(false);
+                    setHasCompleted(true);
+                });
         }
     };
 
@@ -100,10 +105,11 @@ const JourneyForm: React.FC<{
                 </button>
 
                 <label htmlFor = "to">To:</label>
-                <Select options = { stations?.map((station) => ({
-                    value: station.code,
-                    label: station.name,
-                })) } onChange = { (option) => option && setTo(option) }/>
+                <Select
+                    options = { stationOptions }
+                    onChange = { (option) => option && setTo(option) }
+                    value = { to }
+                />
             </form>
             <button type = "button" onClick = { handleSubmit }>Submit</button>
 
