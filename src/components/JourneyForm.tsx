@@ -92,7 +92,7 @@ const JourneyForm: React.FC<{
 
     return (
         <>
-            <form>
+            <form className = 'centred'>
                 <label htmlFor = "from">From:</label>
                 <Select
                     options = { stationOptions }
@@ -100,7 +100,7 @@ const JourneyForm: React.FC<{
                     value = { from }
                 />
 
-                <button type = "button" onClick = { getNearestStation } style = { { display: 'grid', padding: '0.2em' } }>
+                <button type = "button" className = 'location-button' onClick = { getNearestStation } >
                     <Position style = { { alignSelf: 'center' } }/>
                 </button>
 
@@ -113,10 +113,12 @@ const JourneyForm: React.FC<{
             </form>
             <button type = "button" onClick = { handleSubmit }>Submit</button>
 
-            {isLoading && <ClipLoader
-                loading = { isLoading }
-                cssOverride = { { display: 'block', margin: 'auto' } }
-            />}
+            <div className = 'centred'>
+                {isLoading && <ClipLoader
+                    loading = { isLoading }
+                    cssOverride = { { display: 'block', margin: 'auto' } }
+                />}
+            </div>
         </>
     );
 };

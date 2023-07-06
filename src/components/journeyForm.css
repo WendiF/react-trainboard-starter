@@ -8,7 +8,6 @@ label {
 }
 
 form {
-    margin: auto;
     width: fit-content;
     display: grid;
     grid-template-columns: auto 1fr auto;
@@ -40,4 +39,9 @@ button:hover {
 button:active {
     top: 0.3em;
     box-shadow: 0 0.1em 0 #004C6A;
+}
+
+.location-button {
+    display: grid;
+    padding: 0.2em;
 }
