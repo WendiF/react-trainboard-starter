@@ -1,0 +1,65 @@
+body {
+    padding: 1em;
+    font-family: sans-serif;
+}
+
+table {
+    margin: auto;
+}
+
+label {
+    text-align: left;
+    display: block;
+}
+
+form {
+    margin: auto;
+    width: fit-content;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1em;
+    align-items: baseline;
+}
+
+button {
+    position: relative;
+    margin: 1em;
+    background-color: #008CBA; /* Green */
+    border: none;
+    color: white;
+    padding: 0.3em 0.6em;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 0.3em;
+    box-shadow: 0 0.3em 0 black;
+}
+
+button:hover {
+    top: 0.2em;
+    box-shadow: 0 0.1em 0 black;
+}
+
+select {
+    padding: 0.5em;
+}
+
+/*Table styling*/
+
+table {
+    max-width: 200ch;
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
