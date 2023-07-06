@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Select from 'react-select';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { Position } from 'iconoir-react';
 import './stations.css';
@@ -6,17 +7,19 @@ import { fetchFares, fetchStations } from '../helpers/ApiCallHelper';
 import { journey } from '../models/journey';
 import { station, stationAPI } from '../models/station';
 
-const Stations: React.FC = () => {
-    const [allStations, setAllStations] = useState<string[]>();
-    const [allStationCodes, setAllStationCodes] = useState<Map<string, station>>();
+type selectOption = {
+    value: string;
+    label: string;
+}
 
-    const [from, setFrom] = useState('');
-    const [to, setTo] = useState('');
+const Stations: React.FC = () => {
+    const [stations, setStations] = useState<station[]>();
+    const [stationOptions, setStationOptions] = useState<selectOption[]>();
+
+    const [from, setFrom] = useState<selectOption | undefined>();
+    const [to, setTo] = useState<selectOption | undefined>();
 
     const [journeys, setJourneys] = useState<journey[]>();
-
-    const today = new Date(Date.now());
-    today.setHours(today.getHours() + 1);
 
     const [isLoading, setLoading] = useState(false);
 
@@ -25,14 +28,16 @@ const Stations: React.FC = () => {
             const coords = { latitude: pos.coords.latitude, longitude: pos.coords.longitude };
 
             let bestDist;
-            let bestStation = '';
-            for (const name of allStations!) {
-                const station = allStationCodes?.get(name);
+            let bestStation;
+            for (const station of stations!) {
                 if (station) {
                     const dist = Math.pow(station.longitude - coords.longitude, 2) + Math.pow(station.latitude - coords.latitude, 2);
                     if (!bestDist || dist < bestDist) {
                         bestDist = dist;
-                        bestStation = station.code;
+                        bestStation = {
+                            value: station.code,
+                            label: station.name,
+                        };
                     }
                 }
             }
@@ -41,56 +46,68 @@ const Stations: React.FC = () => {
         });
     };
 
-    const handleClick = () => {
-        setLoading(true);
-        setJourneys(undefined);
-        fetchFares(from, to, today.toISOString())
-            .then((value) => setJourneys(value.map((journey: any): journey => ({
-                arrivalTime: new Date(journey.arrivalTime),
-                departureTime: new Date(journey.departureTime),
-                destination: journey.destinationStation.displayName,
-                origin: journey.originStation.displayName,
-                id: journey.journeyId,
-            }))))
-            .catch((err) => console.log(err))
-            .finally(() => setLoading(false));
+    const handleSubmit = () => {
+        const today = new Date(Date.now());
+        today.setHours(today.getHours() + 1);
+
+        if (from && to) {
+            setLoading(true);
+            setJourneys(undefined);
+            fetchFares(from.value, to.value, today.toISOString())
+                .then((value) => setJourneys(value.map((journey: any): journey => ({
+                    arrivalTime: new Date(journey.arrivalTime),
+                    departureTime: new Date(journey.departureTime),
+                    destination: journey.destinationStation.displayName,
+                    origin: journey.originStation.displayName,
+                    id: journey.journeyId,
+                }))))
+                .catch((err) => console.log(err))
+                .finally(() => setLoading(false));
+        }
     };
 
     useEffect(() => {
         fetchStations()
             .then((value) => {
-                setAllStations(value.map((station: stationAPI) => station.name).sort());
-                setAllStationCodes(new Map(value.map((station: stationAPI) => [station.name, {
+                setStations(value.map((station: stationAPI) => ({
                     name: station.name,
                     code: station.crs ?? station.nlc,
                     latitude: station.latitude,
                     longitude: station.longitude,
-                }])));
+                })));
             })
             .catch((err) => console.log(err))
-            .finally(() => console.log('finally'));
+            .finally(() => {
+                console.log('finally');
+            });
     }, []);
+
+    useEffect(() => setStationOptions(stations?.map((station) => ({
+        value: station.code,
+        label: station.name,
+    }))), [stations]);
 
     return (
         <>
             <form>
                 <label htmlFor = "from">From:</label>
-                <select name = "from" id = "from" value = { from } onChange = { (event) => setFrom(event.target.value) }>
-                    {allStations?.map((station) => <option value = { allStationCodes?.get(station)?.code }
-                        key = { station }>{station}</option>)}
-                </select>
+                <Select 
+                    options = { stationOptions }
+                    onChange = { (option) => option && setFrom(option) }
+                    value = { from }
+                />
 
                 <button type = "button" onClick = { getNearestStation } style = { { display: 'grid', padding: '0.2em' } }>
                     <Position style = { { alignSelf: 'center' } } />
                 </button>
 
                 <label htmlFor = "to">To:</label>
-                <select name = "to" id = "to" value = { to } onChange = { (event) => setTo(event.target.value) }>
-                    {allStations?.map((station) => <option value = { allStationCodes?.get(station)?.code }
-                        key = { station }>{station}</option>)}
-                </select>
+                <Select options = { stations?.map((station) => ({
+                    value: station.code,
+                    label: station.name,
+                })) } onChange = { (option) => option && setTo(option) } />
             </form>
-            <button type = "button" onClick = { handleClick }>Submit</button>
+            <button type = "button" onClick = { handleSubmit }>Submit</button>
 
             {isLoading && <ClipLoader
                 loading = { isLoading }
