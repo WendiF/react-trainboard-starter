@@ -1,4 +1,4 @@
-export type journey = {
+export type Journey = {
     arrivalTime: Date;
     departureTime: Date;
     destination: string;

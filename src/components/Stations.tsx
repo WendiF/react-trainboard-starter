@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import './stations.css';
-import { journey } from '../models/journey';
+import { Journey } from '../models/Journey';
 import JourneyForm from './JourneyForm';
 import JourneyTable from './JourneyTable';
 
 const Stations: React.FC = () => {
-    const [journeys, setJourneys] = useState<journey[]>();
+    const [journeys, setJourneys] = useState<Journey[]>();
 
     return (
         <>

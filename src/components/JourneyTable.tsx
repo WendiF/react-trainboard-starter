@@ -1,8 +1,8 @@
 import React from 'react';
 import './journeyTable.css';
-import { journey } from '../models/journey';
+import { Journey } from '../models/Journey';
 
-const JourneyTable: React.FC<{ journeys: journey[] | undefined }> = ({ journeys }) => {
+const JourneyTable: React.FC<{ journeys: Journey[] | undefined }> = ({ journeys }) => {
     return (
         <>
             {journeys &&

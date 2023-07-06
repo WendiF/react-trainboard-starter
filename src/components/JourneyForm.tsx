@@ -4,18 +4,18 @@ import ClipLoader from 'react-spinners/ClipLoader';
 import { Position } from 'iconoir-react';
 import './journeyForm.css';
 import { fetchFares, fetchStations } from '../helpers/ApiCallHelper';
-import { journey } from '../models/journey';
-import { selectOption } from '../models/selectOption';
-import { station, stationAPI } from '../models/station';
+import { Journey } from '../models/Journey';
+import { SelectOption } from '../models/SelectOption';
+import { Station, StationAPI } from '../models/Station';
 
 const JourneyForm: React.FC<{
-    setJourneys: React.Dispatch<React.SetStateAction<journey[] | undefined>>;
+    setJourneys: React.Dispatch<React.SetStateAction<Journey[] | undefined>>;
 }> = ({ setJourneys }) => {
-    const [stations, setStations] = useState<station[]>();
-    const [stationOptions, setStationOptions] = useState<selectOption[]>();
+    const [stations, setStations] = useState<Station[]>();
+    const [stationOptions, setStationOptions] = useState<SelectOption[]>();
 
-    const [from, setFrom] = useState<selectOption | undefined>();
-    const [to, setTo] = useState<selectOption | undefined>();
+    const [from, setFrom] = useState<SelectOption | undefined>();
+    const [to, setTo] = useState<SelectOption | undefined>();
 
     const [isLoading, setLoading] = useState(false);
 
@@ -52,7 +52,7 @@ const JourneyForm: React.FC<{
             setLoading(true);
             setJourneys(undefined);
             fetchFares(from.value, to.value, today.toISOString())
-                .then((value) => setJourneys(value.map((journey: any): journey => ({
+                .then((returnedJourneys) => setJourneys(returnedJourneys.map((journey: any): Journey => ({
                     arrivalTime: new Date(journey.arrivalTime),
                     departureTime: new Date(journey.departureTime),
                     destination: journey.destinationStation.displayName,
@@ -67,7 +67,7 @@ const JourneyForm: React.FC<{
     useEffect(() => {
         fetchStations()
             .then((value) => {
-                setStations(value.map((station: stationAPI) => ({
+                setStations(value.map((station: StationAPI) => ({
                     name: station.name,
                     code: station.crs ?? station.nlc,
                     latitude: station.latitude,
