@@ -1,5 +1,5 @@
 import React from 'react';
-import './stations.css';
+import './journeyTable.css';
 import { journey } from '../models/journey';
 
 const JourneyTable: React.FC<{ journeys: journey[] | undefined }> = ({ journeys }) => {

@@ -2,15 +2,11 @@ import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { Position } from 'iconoir-react';
-import './stations.css';
+import './journeyForm.css';
 import { fetchFares, fetchStations } from '../helpers/ApiCallHelper';
 import { journey } from '../models/journey';
+import { selectOption } from '../models/selectOption';
 import { station, stationAPI } from '../models/station';
-
-type selectOption = {
-    value: string;
-    label: string;
-}
 
 const JourneyForm: React.FC<{
     setJourneys: React.Dispatch<React.SetStateAction<journey[] | undefined>>;
